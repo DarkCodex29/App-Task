@@ -12,15 +12,16 @@ class AddTaskPage extends StatefulWidget {
 class _AddTaskPageState extends State<AddTaskPage> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
+  bool _isCompleted = false;
 
   @override
   void initState() {
-    if (widget.task != null) {
-      _titleController = TextEditingController(text: widget.task!.title);
-      _descriptionController =
-          TextEditingController(text: widget.task!.description);
-    }
     super.initState();
+    _titleController =
+        TextEditingController(text: widget.task?.title ?? '');
+    _descriptionController =
+        TextEditingController(text: widget.task?.description ?? '');
+    _isCompleted = widget.task?.isCompleted ?? false;
   }
 
   bool _validateFields() {
@@ -89,7 +90,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
           onPressed: () {
             if (_validateFields()) {
               Navigator.pop(context,
-                  [_titleController.text, _descriptionController.text]);
+                  [_titleController.text, _descriptionController.text, _isCompleted]);
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
